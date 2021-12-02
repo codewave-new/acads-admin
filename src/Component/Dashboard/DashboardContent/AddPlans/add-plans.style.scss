@@ -1,0 +1,57 @@
+.add-plans-main {
+  width: 100%;
+  height: 100px;
+  .add-plans-header {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2%;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    h4 {
+      font-weight: 500;
+    }
+  }
+  .add-plans-body {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 2% 20px;
+    background-color: var(--bg-color);
+    .input-wrapper {
+      width: 50%;
+      margin-bottom: 20px;
+      p {
+        margin: 0;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .input-section {
+        width: 70%;
+        input , textarea{
+          width: 100%;
+          padding: 8px;
+          background-color: transparent;
+          border: 1px solid var(--border-color);
+          resize: none;
+          &:focus{
+            outline-color: var(--border-color);
+          }
+
+        }
+      }
+    }
+    button{
+        margin: 5vh auto;
+
+       background-color: var(--main-color);
+       color: var(--bg-color);
+       padding: 8px 30px; 
+       letter-spacing: 1px;
+       border: 0;
+       border-radius: 4px;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+.add-users-main {
+  width: 100%;
+  background-color: var(--bg-color);
+  animation: opacity-change 0.3s 1 linear;
+  .aum-header {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    padding: 0 2%;
+    border-bottom: 1px solid var(--border-color);
+    h4 {
+      font-weight: 500;
+    }
+  }
+  .aum-body {
+    width: 100%;
+    padding: 2% 2%;
+    form {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .input-wrapper {
+        width: 40%;
+        margin-bottom: 2vh;
+        h6 {
+          margin: 0;
+          font-weight: 500;
+          font-size: 90%;
+          margin-bottom: 5px;
+        }
+        input {
+          width: 80%;
+          padding: 10px;
+          border: 1px solid var(--border-color);
+        }
+      }
+      .submit-wrapper{
+          width: 80%;
+          text-align: center;
+          margin-top: 5vh;
+          button{
+              background-color: var(--main-color);
+              padding: 8px 30px;
+              color: var(--bg-color);
+              border: 0;
+              border-radius: 20px;
+              &:disabled{
+                opacity: 0.5;
+              }
+
+          }
+      }
+    }
+  }
+}

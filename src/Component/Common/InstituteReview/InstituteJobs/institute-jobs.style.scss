@@ -1,0 +1,89 @@
+.institute-jobs-main {
+  width: 100%;
+  padding-top: 2%;
+  .i-j-m-header {
+    margin-bottom: 2vh;
+    h5 {
+      font-weight: 600;
+      margin: 0;
+      font-size: 140%;
+    }
+  }
+  .i-j-m-tabs {
+    border: 1px solid var(--gray-color);
+    .i-j-m-tabs-header {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gray-color);
+      h6 {
+        height: 100%;
+        margin: 0;
+        text-align: center;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 100%;
+        font-weight: 500;
+        &:nth-child(1) {
+          background-color: var(--faint-white-two);
+        }
+      }
+    }
+    .i-j-m-tabs-search {
+      display: flex;
+      padding: 2% 5%;
+      justify-content: space-between;
+
+      .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        input{
+            padding: 6px;
+            border-radius: 4px;
+        }
+        &:nth-child(1) {
+          width: 25%;
+        }
+
+        &:nth-child(2) {
+          width: 35%;
+        }
+        &:nth-child(3) {
+          width: 30%;
+        }
+      }
+    }
+    .i-j-m-tabs-table{
+        margin: 0 5%;
+        margin-bottom: 2vh;
+        border: 1px solid var(--gray-color);
+        .tabs-table-header{
+            display: flex;
+            padding: 1% 2%;
+            background-color: var(--faint-white);
+            span{
+                width: 20%;
+
+            }
+        }
+        .tabs-table-body{
+            width: 100%;
+            .tabs-table-row{
+                width: 100%;
+                display: flex;
+                padding: 1% 2%;
+                span{
+                    width: 20%;
+                    &:last-child{
+                        text-align: center;
+                    }
+                }
+            }
+
+        }
+    }
+  }
+}

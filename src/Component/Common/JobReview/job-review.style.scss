@@ -1,0 +1,84 @@
+.job-review-main {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  box-shadow: 0px 0px 10px rgba($color: #000000, $alpha: 0.1);
+  padding: 5%;
+  padding-bottom: 0;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--gray-color);
+  }
+  p,
+  div {
+    text-align: left;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    div {
+      button {
+        padding: 5px 10px;
+        &:nth-child(1) {
+          background-color: transparent;
+          border: 1px solid var(--gray-color);
+        }
+        &:nth-child(2) {
+          background-color: var(--main-color);
+          border: 1px solid var(--main-color);
+          color: var(--bg-color);
+          margin-left: 2vh;
+        }
+      }
+    }
+  }
+  .job-details-main {
+    display: flex;
+    align-items: stretch;
+    padding: 4vh 0;
+
+    button {
+      background-color: var(--gray-color);
+      height: 12vh;
+      width: 12vh;
+      border-radius: 50%;
+      border: 0;
+      margin-right: 10px;
+    }
+    div {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      h5 {
+        font-weight: 500;
+        font-size: 120%;
+        margin: 0;
+      }
+    }
+  }
+  .job-details-other {
+    margin-bottom: 5vh;
+    p {
+      margin-bottom: 2vh;
+    }
+  }
+  .job-description,
+  .institute-description {
+    margin-bottom: 5vh;
+    p {
+      margin-bottom: 2vh;
+      font-weight: 600;
+      font-size: 120%;
+    }
+    div {
+      border: 1px solid var(--border-color);
+      padding: 10px;
+      color: var(--gray-color);
+    }
+  }
+}

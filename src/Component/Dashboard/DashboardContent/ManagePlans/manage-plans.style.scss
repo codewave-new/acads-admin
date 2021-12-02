@@ -1,0 +1,87 @@
+.manage-plans-main {
+  width: 100%;
+  .manage-plans-header {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    padding: 0 2%;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    h4 {
+      font-weight: 500;
+    }
+  }
+  .manage-plans-body {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    .manage-plan-card-wrapper {
+      width: calc(100% / 3);
+      display: flex;
+
+      &:nth-child(3n + 1) {
+        justify-content: flex-start;
+      }
+      &:nth-child(3n + 2) {
+        justify-content: center;
+      }
+      &:nth-child(3n + 3) {
+        justify-content: flex-end;
+      }
+
+      .manage-plan-card {
+        width: 85%;
+        border: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 35px 20px;
+        margin-bottom: 20px;
+
+        background-color: var(--bg-color);
+        position: relative;
+        .edit-card{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            height: 30px;
+            width: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--border-color);
+            border-radius: 5px;
+            border: 0;
+            img{
+                height: 15px;
+                width: 15px;
+            }
+        }
+
+        h4,
+        p,
+        span {
+          margin: 0;
+          margin-bottom: 10px;
+        }
+        p{
+            color: var(--main-color);
+            font-weight: 500;
+            font-size: 120%;
+        }
+        .deactivate{
+            background-color: rgb(255, 28, 28);
+            color: var(--bg-color);
+            padding: 8px 20px;
+            border: 0;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+      }
+    }
+  }
+}

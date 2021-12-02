@@ -1,0 +1,31 @@
+.pagination-section {
+  display: flex;
+  list-style: none;
+  padding: 1% 2%;
+  border-top: 1px solid var(--border-color);
+  justify-content: flex-end;
+  li {
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    &:hover {
+      background-color: var(--border-color);
+    }
+  }
+  .rc-pagination-item-active {
+    background-color: #212121;
+    color: var(--bg-color);
+    &:hover {
+      background-color: #212121;
+    }
+  }
+  img {
+    height: 20px;
+    width: 20px;
+  }
+}

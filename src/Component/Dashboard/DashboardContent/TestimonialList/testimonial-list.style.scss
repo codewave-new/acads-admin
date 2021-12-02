@@ -1,0 +1,120 @@
+.testimonial-list-main {
+  width: 100%;
+  .tlm-header {
+    width: 100%;
+    height: 8vh;
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-bottom: 2%;
+    margin-bottom: 20px;
+    h5 {
+      margin: 0;
+      font-weight: 500;
+    }
+    button {
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      padding: 4px 10px;
+      transition: 0.3s;
+      &:hover {
+        background-color: var(--border-color);
+        font-weight: 500;
+      }
+    }
+  }
+  .tlm-body {
+    width: 100%;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2%;
+    .testimonial-card-wrapper {
+      width: calc(100% / 3);
+      display: flex;
+      &:nth-child(3n + 1) {
+        justify-content: flex-start;
+      }
+      &:nth-child(3n + 2) {
+        justify-content: center;
+      }
+      &:nth-child(3n + 3) {
+        justify-content: flex-end;
+      }
+      .testimonial-card {
+        width: 90%;
+        border: 1px solid var(--border-color);
+        padding: 20px;
+        h6,
+        p {
+          margin: 0;
+        }
+        header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 5px;
+          h6{
+              width: 40%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              margin: 0;
+              height: 30px;
+          }
+          div{
+              width: 50%;
+              display: flex;
+              justify-content: flex-end;
+              align-items: flex-start;
+              height: 30px;
+          .institute {
+            background-color: var(--main-color);
+            color: var(--bg-color);
+            padding: 4px 10px;
+            border: 1px solid var(--main-color);
+          }
+          .candidate {
+            background-color: var(--secondary-color);
+            color: var(--bg-color);
+            padding: 4px 10px;
+            height: 30px;
+            border: 1px solid var(--secondary-color);
+          }
+          .delete-button{
+              height: 30px;
+              width: 30px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: var(--bg-color);
+              border: 1px solid var(--border-color);
+              margin-left: 5px;
+              img{
+                  width: 20px;
+                  height: 20px;
+              }
+          }
+        }
+        }
+        div {
+          width: 100%;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          word-break: break-all;
+          height: 75px;
+          p {
+            margin-bottom: 0;
+            line-height: 25px;
+            font-size: 110%;
+            font-size: 85%;
+          }
+        }
+      }
+    }
+  }
+}

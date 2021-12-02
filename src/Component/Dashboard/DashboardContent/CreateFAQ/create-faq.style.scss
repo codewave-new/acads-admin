@@ -1,0 +1,48 @@
+.create-faq-main {
+  width: 100%;
+  .create-faq-header {
+    width: 100%;
+    height: 8vh;
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border-color);
+    h5 {
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+  .create-faq-body{
+      width: 100%;
+      background-color: var(--bg-color);
+      padding: 4%;
+    .input-wrapper {
+        width: 100%;
+        margin-bottom: 20px;
+        p {
+          margin: 5px;
+        }
+        .input-section {
+          padding: 2px;
+          border: 1px solid var(--border-color);
+          input,
+          textarea {
+            width: 100%;
+            border: 0;
+            padding: 8px 10px;
+            resize: none;
+          }
+        }
+      }
+      button{
+          width: 15%;
+          background-color: var(--main-color);
+          border: 0;
+          padding: 8px;
+          color: var(--bg-color);
+          letter-spacing: 1px;
+          border-radius: 4px;
+      }
+  }
+}

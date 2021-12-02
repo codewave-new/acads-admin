@@ -1,0 +1,44 @@
+@import "src/variable.scss";
+.App {
+  display: flex;
+  min-height: 100vh;
+}
+h1 {
+  font-size: 250%;
+}
+h2 {
+  font-size: 220%;
+}
+h3 {
+  font-size: 190%;
+}
+h4 {
+  font-size: 160%;
+}
+h5 {
+  font-size: 130%;
+}
+h6 {
+  font-size: 110%;
+}
+* {
+  box-sizing: border-box;
+}
+input {
+  &:focus {
+    outline-color: transparent;
+  }
+}
+button {
+  cursor: pointer;
+}
+@keyframes opacity-change {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
