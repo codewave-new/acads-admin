@@ -32,11 +32,20 @@ const editCity=(obj)=>{
   setCityModal(true)
 }
 const handleOk=async ()=>{
+ if(city.label === undefined)
+ {
+   alert('city is required')
+ }
+ else
+ {
   let job_data={...job,city:city.label}
   await updateJob(job_data)
   await  setUpJobList();
   setCityModal(false)
   setCity('')
+ }
+
+  
 }
 const handleCancel=()=>{
   setCityModal(false)
