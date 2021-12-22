@@ -1,18 +1,19 @@
-import { InputNumber } from 'antd';
+import { InputNumber,Switch } from 'antd';
 import PaymentSummary from './paymentSummary';
-const PurchaseDetails=()=>{
+const PurchaseDetails=({gst,price,totalPrice,discountType,changeDiscountType,discount,discountedAmount,generateOrder})=>{
+    
     return (
    
-        <div className="row">
+        <div className="row" style={{justifyContent:"right"}}>
         <div className="col-md-4">
-        <label>Price per Job Post</label><br />
-        <InputNumber />
-        </div>
-        <div className="col-md-4">
+       
         <label>Discount</label> <br />
-        <InputNumber />
+        <InputNumber onChange={(value)=>discount(value)} />
+        <span style={{"marginLeft":"6px"}}>%</span><Switch onChange={(checked)=>changeDiscountType(checked)} style={{"marginLeft":"6px"}}/><span style={{"marginLeft":"6px"}}>Fixed Price</span>
+        <PaymentSummary price={price} discountedAmount={discountedAmount} generateOrder={generateOrder} gst={gst} totalPrice={totalPrice}/>
+
         </div>
-        <div className="col-md-4"><PaymentSummary /></div>
+        
         </div>
         
    

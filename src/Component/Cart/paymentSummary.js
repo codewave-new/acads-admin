@@ -1,17 +1,28 @@
 
 
-const PaymentSummary=()=>{
+const PaymentSummary=({price,gst,totalPrice,discountedAmount,generateOrder})=>{
    const summary_box={
-    height: "162px",
-    width: "50%",
-    background: "#fff"
+    height: "75%",
+    width: "64%",
+    background: "#fff",
+    padding:"5%"
    }
     return (
         <>
     <h5>Payment Summary</h5>
     <div style={summary_box}>
        
-       <div>hi</div>
+       <div>
+          <span><b>Price:</b> {price}</span><br />
+          <span><b>GST:</b> {gst}</span><br />
+          <span><b>Total Amount:</b> {parseInt(price)+parseInt(gst)}</span><br />
+         <span>  <b>Discount:</b> {discountedAmount}</span><br />
+         
+          
+          <hr />
+          <b>GRAND TOTAL : {(parseInt(price)+parseInt(gst))-discountedAmount}</b>
+      </div>
+      <div><button style={{"margin":"2px"}} onClick={generateOrder}  className="btn btn-primary">CHECKOUT</button></div>
     </div>
        </> 
    

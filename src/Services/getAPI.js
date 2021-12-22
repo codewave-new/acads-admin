@@ -138,6 +138,18 @@ export const getInstituteDetails = (id) => {
   return axios(config);
 };
 
+export const getAllTemplates=()=>{
+  let token = localStorage.getItem("token");
+  let config = {
+    method: "get",
+    url: `https://acadshr.herokuapp.com/descriptiontemplates/getAllTemplates`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(config);
+}
+
 export const getAllJobs = (data) => {
   let token = localStorage.getItem("token");
   let config = {
@@ -155,6 +167,7 @@ export const getAllJobs = (data) => {
 
   //return axios.post(`https://acadshr.herokuapp.com/ahr/job/list`,data);
 };
+
 
 export const getJobDetails = (id) => {
   return axios.get(

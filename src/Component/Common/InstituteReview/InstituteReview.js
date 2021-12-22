@@ -23,11 +23,9 @@ export default function InstituteReview() {
   ) : (
     <div className="institutes-review-main">
       <div className="institute-logo">
-        {!instituteDetails.institution_logo ? (
-          <button>Logo</button>
-        ) : (
-          <img src={instituteDetails.institution_logo} />
-        )}
+        {
+          <img src={instituteDetails?.institutionDetails?.institute_logo} />
+        }
       </div>
       <div className="institutes-details">
         <div className="institute-details-card">
@@ -40,43 +38,43 @@ export default function InstituteReview() {
         </div>
         <div className="institute-details-card">
           <h5>Official Email ID</h5>
-          <p>{instituteDetails?.institution_primary_email || "NA"}</p>
+          <p>{instituteDetails?.institutionContactDetails?.institution_primary_email || "NA"}</p>
         </div>
         <div className="institute-details-card">
           <h5>Alternate Email ID</h5>
-          <p>{instituteDetails?.institution_alternative_email || "NA"}</p>
+          <p>{instituteDetails?.institutionContactDetails?.institution_alternative_email || "NA"}</p>
         </div>
         <div className="institute-details-card">
           <h5>Contact Number</h5>
-          <p>{instituteDetails?.institution_primary_contact_no}</p>
+          <p>{instituteDetails?.institutionContactDetails?.institution_primary_contact_no}</p>
         </div>
         <div className="institute-details-card">
           <h5>Alternate Contact No.</h5>
-          <p>{instituteDetails?.institution_alternative_contact_no}</p>
+          <p>{instituteDetails?.institutionContactDetails?.institution_alternative_contact_no}</p>
         </div>
         <div className="institute-details-card">
           <h5>Official Website URL</h5>
-          <p>{instituteDetails?.institution_website || "NA"}</p>
+          <p>{instituteDetails?.institutionDetails?.institution_website || "NA"}</p>
         </div>
         <div className="institute-details-card">
           <h5>No. Of Staff</h5>
-          <p>{instituteDetails?.no_of_staff?.replace("_", "-") || "NA"}</p>
+          <p>{instituteDetails?.institutionDetails?.no_of_staff.start +'-'+instituteDetails?.institutionDetails?.no_of_staff.end  || "NA"}</p>
         </div>
         <div className="institute-details-card">
           <h5>Country</h5>
-          <p>{instituteDetails?.institute_location?.country || "NA"}</p>
+          <p>{instituteDetails?.institutionDetails?.institute_location?.country || "NA"}</p>
         </div>
         <div className="institute-details-card">
           <h5>State </h5>
-          <p>{instituteDetails?.institute_location?.state || "NA"}</p>
+          <p>{instituteDetails?.institutionDetails?.institute_location?.state || "NA"}</p>
         </div>
         <div className="institute-details-card">
           <h5>City</h5>
-          <p>{instituteDetails?.institute_location?.city || "NA"}</p>
+          <p>{instituteDetails?.institutionDetails?.institute_location?.city || "NA"}</p>
         </div>
         <div className="institute-details-card">
           <h5>Pincode</h5>
-          <p>{instituteDetails?.institute_location?.pin || "NA"}</p>
+          <p>{instituteDetails?.institutionDetails?.institute_location?.pin || "NA"}</p>
         </div>
       </div>
 
@@ -85,13 +83,13 @@ export default function InstituteReview() {
           <p>Institute Address</p>
           <textarea
             disabled
-            placeholder={instituteDetails?.institute_address}
+            placeholder={instituteDetails?.institutionDetails?.institute_address}
           ></textarea>
         </div>
         <div className="input-wrapper">
           <p>Google Location</p>
           <textarea
-            placeholder={instituteDetails?.google_location}
+            placeholder={instituteDetails?.institutionDetails?.google_location}
             disabled
           ></textarea>
         </div>
@@ -100,11 +98,11 @@ export default function InstituteReview() {
           <textarea
             rows={3}
             disabled
-            placeholder={instituteDetails?.about_institution}
+            placeholder={instituteDetails?.institutionDetails?.about_institution}
           ></textarea>
         </div>
       </div>
-      <InstituteJobs />
+    
     </div>
   );
 }

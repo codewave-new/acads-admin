@@ -69,7 +69,7 @@ const sidebarList = [
     id: "approvals",
     icon: "https://img.icons8.com/material-outlined/48/000000/approval.png",
     list: [
-      { _id: nextId(), name: "Approvals of Jobs", id: "approveJobs" },
+     
       { _id: nextId(), name: "Approvals of fields", id: "approveFields" },
     ],
   },
@@ -80,7 +80,7 @@ const sidebarList = [
     icon: "https://img.icons8.com/ios/50/000000/find-matching-job.png",
     list: [
       { _id: nextId(), name: "Manage Jobs", id: "manageJobs" },
-       { _id: nextId(), name: "Add Jobs", id: "addjobs" }
+      
       // {
       //   _id: nextId(),
       //   name: "Jobs with due payment",

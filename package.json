@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.17.2",
     "axios": "^0.21.1",
+    "country-state-city": "^3.0.1",
     "formik": "^2.2.9",
     "interweave": "^12.8.0",
     "jwt-decode": "^3.1.2",

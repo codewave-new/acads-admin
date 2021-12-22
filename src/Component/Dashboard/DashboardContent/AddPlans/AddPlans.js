@@ -20,10 +20,12 @@ export default function AddPlans() {
     plan_discount: "",
   });
   const handleSubmit = async () => {
-    if (selectedForm !== "jobPost") return;
+   
+    if (selectedForm.id !== "jobPost") return;
     try {
       setLoading(true);
-      let res = await createPlan({ ...details });
+      let res = await createPlan({ ...details,plan_discount_amount:parseInt(2542*details.no_of_job_post) - parseInt(details.plan_price_per_job_post*details.no_of_job_post),price:parseInt((details.plan_price_per_job_post*details.no_of_job_post)*(1+0.18)) });
+
       if (res.data.data) {
         alert("Plan Added Successfully");
         setDetails({

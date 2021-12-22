@@ -1,7 +1,10 @@
 import React,{useState,useEffect} from 'react'
 import * as moment from 'moment';
 import { useField, Form,useFormikContext,Formik,Field} from 'formik';
-import {Modal} from 'antd'
+import {Modal,AutoComplete} from 'antd'
+import ReactQuill from "react-quill";
+import "../Dashboard/DashboardContent/TextEditorWrapper/text-editor-wrapper.style.scss";
+import Template from './templates';
 import 'antd/dist/antd.css';
 import Input from './textField'
 import Dropdown from './dropdown'
@@ -10,22 +13,46 @@ import MultiSelect from './multiselect';
 import RangeSlider from './slider'
 import Switch from './switch'
 import {Data} from '../../Assets/Data'
-
+import { Country, State, City }  from 'country-state-city';
 import { JobList,createJob } from '../../Services/postAPI';
-import {getJobByid,getInstituteDetails} from '../../Services/getAPI';
+import {getJobByid,getInstituteDetails,getAllTemplates} from '../../Services/getAPI';
 import InfiniteScroll from 'react-infinite-scroller';
 import JobListing from './jobListing';
 import * as Yup from 'yup';
 import swal from 'sweetalert';
-
+import Search from 'antd/lib/transfer/search';
+const mod = {
+  toolbar: {
+    container: "#toolbar",
+  },
+};
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
 const AddJob=(props)=>{
+ 
 
-// const { setFieldValue, values } = useFormikContext();
 const [value,setVal]=useState([])
 const [initialValues,setInitalValules]=useState({
-    job_id:props?.match?.params?.ismart_id,
+    
     ismart_institution_id:props?.match?.params?.ismart_id,
-    institution_id:props?.match?.params?.institute_id,
+    institution_id:'',
     job_curiculum:'',
     job_role:'',
     job_class:'',
@@ -56,16 +83,52 @@ const [initialValues,setInitalValules]=useState({
     about_institution:false,
     salary:false
 })
+const [userId,setUserId]=useState("")
 const [jobs,openJobs]=useState(false)
-
+const [template,showTemplate]=useState(false)
 const [jobList,setjobList]=useState([])
 const [hasMore,sethasMore]=useState(true)
+const [templateList,setTemplateList]=useState([]);
 const [currentPage,setCurrentPage]=useState(0);
+const [coutries,setCountries]=useState(Country.getAllCountries().map(country=>({value:country.name,country_code:country.isoCode})))
+const [countryCode,setCountryCode]=useState("")
+const [states,setStates]=useState("")
 const scrollParentRef = React.useRef(null);
+
+const onSearch=(text)=>{
+  setCountries(
+    !text ? Country.getAllCountries().map(country=>({value:country.name,country_code:country.isoCode})) : [...coutries.filter(cout=>cout.value.toLowerCase().includes(text.toLowerCase()))],
+  ); 
+}
+
+const searchState=(text)=>{
+  setStates(
+    !text?[...State.getStatesOfCountry(countryCode).map(state=>({value:state.name}))]:[...states.filter(cout=>cout.value.toLowerCase().includes(text.toLowerCase()))]
+  )
+}
+const selectCountry=(setFieldValue,country)=>{
+const res= coutries.find(cout=>cout.value === country)
+setCountryCode(res.country_code)
+  setStates(State.getStatesOfCountry(res.country_code).map(state=>({value:state.name})))
+  setFieldValue('country',country)
+}
+
+const selectState=(setFieldValue,state)=>{
+  setFieldValue('state',state)
+}
+
+
   const repeat=()=>{
     openJobs(true)
     sethasMore(true)
    
+  }
+
+  const openTemplate=()=>{
+    showTemplate(true)
+  }
+  const closeTemplate=()=>{
+     showTemplate(false)
   }
 
   const handleOk=()=>{
@@ -110,20 +173,36 @@ const scrollParentRef = React.useRef(null);
       }
    
   },[hasMore,jobs])
-
+const getTemplate=(temp)=>{
+ 
+  setInitalValules({...initialValues,job_description:temp})
+}
 const getInstitute=async ()=>{
  const result= await getInstituteDetails(props?.match?.params?.institute_id)
+ console.log(result)
  if(result.data.statusCode === 200)
  {
    setInitalValules({
      ...initialValues,
-     loc:result.data.data.institutionDetails.loc
+     loc:result.data.data.institutionDetails.loc,
+     city:result.data.data.institutionDetails.institute_location.city,
+     institution_id:result.data.data.userID
    
    })
+   setUserId(result.data.data._id) 
  }
 }
 useEffect(async ()=>{
   await getInstitute()
+  const res=await getAllTemplates()
+  if(res.data.statusCode === 200)
+  {
+    setTemplateList(res.data.data)
+  }
+  else
+  {
+    setTemplateList([])
+  }
 },[])
   const validationSchema=Yup.object({
     job_title:Yup.string().required('This field is required'),
@@ -179,12 +258,19 @@ useEffect(async ()=>{
         validationSchema={validationSchema}
         onSubmit={async (values, actions) => {
           const jobData={...values,job_status:'saved',job_salary_range:{start:values.job_salary_range[0],end:values.job_salary_range[1]}}
-          const res=await createJob(jobData)
-          if(res.data.statusCode === 200)
-          {
-            swal("Success", res.data.message, "success");
-            props.history.push('/dashboard/cart/'+props?.match?.params?.institute_id)
+          try{
+            const res=await createJob(jobData)
+            if(res.data.statusCode === 200)
+            {
+              swal("Success", res.data.message, "success");
+              props.history.push('/dashboard/cart/'+props?.match?.params?.institute_id+'/'+userId)
+            }
           }
+          catch(e)
+          {
+            swal("Error", e.response.data.error, "error");
+          }
+         
           
           
        }}
@@ -193,7 +279,7 @@ useEffect(async ()=>{
        {(props) => (
         
          <Form>
-             {JSON.stringify(props.values,null,2)}
+            {JSON.stringify(props.errors,null,2)}
              <div className="container" style={{"paddingBottom":"25px"}}>
                  <div className="row mt-4">
                     <div className="col-md-4"><Input name="job_title" label="Job title" type="text"/></div>
@@ -232,14 +318,40 @@ useEffect(async ()=>{
                  </div>
                  <div className="row mt-4">
                     <div className="col-md-4"><Input name="target_hiring_date" label="Target Hiring Date" type="date"/></div>
-                    <div className="col-md-4"><Input name="country" label="Country" type="text"/></div>
-                    <div className="col-md-4"><Input name="state" label="State" type="text"/></div>
+                    <div className="col-md-4">
+                      <label>Country</label><br />
+                      <AutoComplete name="country" onSelect={(coutry)=>selectCountry(props.setFieldValue,coutry)} onSearch={onSearch} options={coutries}
+                     style={{
+                    width: 200,
+                   }} />
+                   </div>
+                    <div className="col-md-4">
+                    <label>State</label><br />
+                      <AutoComplete name="state" onSelect={(state)=>selectState(props.setFieldValue,state)} onSearch={searchState}  options={states}
+                     style={{
+                    width: 200,
+                   }} />
+                      
+                      </div>
                  </div>
                  <div className="row mt-4">
                      <div className="col-md-12"><MultiSelect options={Data.key_skills} label="Key Skills" name="job_key_skill" selectedValue={initialValues.job_key_skill} setFieldValue={props.setFieldValue}/></div>
                 </div>
                 <div className="row mt-4">
-                     <div className="col-md-12"><Input label="Job Description" name="job_description" type="textarea" /></div>
+                <div style={{"float":"left","width":"50%"}}><label>Job Description</label></div>
+                <div style={{"float":"left","width":"50%"}}><span onClick={openTemplate} style={{"color":"blue","cursor":"pointer"}}>Choose from templates</span></div>
+                    <div className="col-md-12">
+                      
+                     <ReactQuill
+                   value={props.values.job_description}
+                    onChange={(val) => props.setFieldValue('job_description',val)}
+                    modules={mod}
+                    name="job_description"
+                    modules={modules}
+                    />
+                       {/* <Input label="Job Description" name="job_description" type="textarea" /> */}
+                       
+                       </div>
                 </div>
 
                 <div className="row mt-4">
@@ -276,7 +388,9 @@ useEffect(async ()=>{
                      <div className="col-md-12"><MultiSelect options={Data.job_language_preference} label="Language Preference" name="job_language_preference" selectedValue={initialValues.job_language_preference} setFieldValue={props.setFieldValue}/></div>
                 </div>
                 <div className="row mt-4">
-                     <div className="col-md-12"><MultiSelect options={Data.job_college_preference} label="Preferred Institutes to hire from" name="job_college_preference" setFieldValue={props.setFieldValue}/></div>
+                     <div className="col-md-12">
+                     <Input name="job_college_preference" label="Preferred Institutes to hire from" type="text"/>
+                       </div>
                 </div>
                 <div className="row mt-4">
                     <div className="col-md-2"><Switch name="institution_logo" label="Institution Logo" setFieldValue={props.setFieldValue} /></div>
@@ -328,6 +442,14 @@ useEffect(async ()=>{
             </div>
             </div>
         </Modal>
+
+        <Modal title="Choose templates" width="1000px" visible={template} onOk={closeTemplate} onCancel={closeTemplate}>
+            
+          <div>
+            <Template templates={templateList} getTemplate={getTemplate}/>
+            </div>
+    </Modal>
+       
         </>
     )
 }

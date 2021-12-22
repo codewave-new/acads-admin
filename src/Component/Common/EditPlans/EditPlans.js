@@ -17,7 +17,7 @@ export default function EditPlans({ data = {}, closeIt, updateList }) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      let res = await editPlan({ ...details }, details._id);
+      let res = await editPlan({ ...details,plan_discount_amount:parseInt(2542*details.no_of_job_post) - parseInt(details.plan_price_per_job_post*details.no_of_job_post),price:parseInt((details.plan_price_per_job_post*details.no_of_job_post)*(1+0.18)) }, details._id);
       if (res.data.data) {
         alert("Plan Edited Successfully");
         updateList();

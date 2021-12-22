@@ -40,7 +40,7 @@ export default function DashboardContent() {
         <Route path="/dashboard/addPlans" component={AddPlans} />
         <Route path="/dashboard/manageJobs" component={ManageJobs} />
         <Route path="/dashboard/addJobs/:institute_id/:ismart_id" component={AddJob} />
-        <Route path="/dashboard/cart/:institute_id" component={Cart} />
+        <Route path="/dashboard/cart/:institute_id/:user_id" component={Cart} />
         <Route path="/dashboard/managePlans" component={ManagePlans} />
         <Route path="/dashboard/approveJobs" component={ApprovalOfJobs} />
         <Route path="/dashboard/approveFields" component={ApprovalOfFields} />

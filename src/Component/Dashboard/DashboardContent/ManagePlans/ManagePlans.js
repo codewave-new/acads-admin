@@ -54,7 +54,7 @@ export default function ManagePlans() {
               <p>{obj.no_of_job_post} Job post</p>
               <span>
                 {" "}
-                <b>$20</b> per post @ <b>{obj.plan_discount}%</b> discount
+                <b>{obj.plan_price_per_job_post}</b> per post @ <b>{obj.plan_discount}%</b> discount
               </span>
               <span>
                 <b>{obj.plan_duration * 28}</b> days validity

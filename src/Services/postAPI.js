@@ -79,6 +79,21 @@ export const JobList = (data) => {
   return axios(config);
 };
 
+export const createOrder = (data) => {
+  let token = localStorage.getItem("token");
+  let config = {
+    method: "post",
+    url: `https://acadshr.herokuapp.com/Orders/admin/createNewOrder`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    data:{
+      ...data
+    }
+  };
+  return axios(config);
+};
+
 
 export const createTestimonial = (data) => {
   let token = localStorage.getItem("token");
