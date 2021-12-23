@@ -89,16 +89,27 @@ export default function InstituteReview() {
         <div className="input-wrapper">
           <p>Google Location</p>
           <textarea
-            placeholder={instituteDetails?.institutionDetails?.google_location}
+            placeholder={instituteDetails?.institutionDetails?.loc.coordinates}
             disabled
           ></textarea>
+             <iframe
+              title="map"
+              src={
+                `https://maps.google.com/maps?q=${instituteDetails?.institutionDetails?.loc.coordinates[1]}, ${instituteDetails?.institutionDetails?.loc.coordinates[0]}&z=8&output=embed`
+              }
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+            ></iframe>
         </div>
         <div className="input-wrapper">
           <p>About Institute</p>
           <textarea
             rows={3}
             disabled
-            placeholder={instituteDetails?.institutionDetails?.about_institution}
+            placeholder={instituteDetails?.institutionDetails?.about}
           ></textarea>
         </div>
       </div>

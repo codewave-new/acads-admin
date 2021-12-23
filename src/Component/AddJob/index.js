@@ -146,7 +146,8 @@ const selectState=(setFieldValue,state)=>{
   }
  
   const getJobs=async (pageNo,pageSize)=>{
-    const institution_id=props?.match?.params?.institute_id
+ 
+    const institution_id=initialValues.institution_id
     const result=await JobList({institution_id,pageNo,pageSize});
   
     if(result.data.data.jobData.length > 0)
@@ -263,7 +264,7 @@ useEffect(async ()=>{
             if(res.data.statusCode === 200)
             {
               swal("Success", res.data.message, "success");
-              props.history.push('/dashboard/cart/'+props?.match?.params?.institute_id+'/'+userId)
+              props.history.push('/dashboard/cart/'+initialValues.institution_id+'/'+userId)
             }
           }
           catch(e)
