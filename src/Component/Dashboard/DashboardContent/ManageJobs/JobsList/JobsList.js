@@ -99,7 +99,7 @@ const onCityPlaceSelected=(val)=>{
               <select onChange={(e)=>jobStatus(e)}>
               {/* <option value="draft">Draft</option> */}
               <option value="Active">Active</option>
-              {/* <option value="Cancelled">Cancelled</option> */}
+               <option value="payment-inprogress">Payment in Progress</option>
               <option value="Closed">Closed</option>
               <option value="On Hold">On Hold</option>
               {/* <option value="Not Won">Not Won</option>

@@ -23,7 +23,7 @@ const withold=async ()=>{
   alert('job updated')
 }
 const approve=async ()=>{
- await updateJob({job_status:'live',_id:jobId})
+ await updateJob({job_status:'Active',_id:jobId})
  await setUpJobDetails()
  alert('job updated')
 }
@@ -63,7 +63,7 @@ const approve=async ()=>{
           <b>Job Title:</b> {jobDetails?.job_title || "NA"}
         </p>
         <p>
-          <b>Subject:</b> {jobDetails?.custField6 || "NA"}
+          <b>Subject:</b> {jobDetails?.job_subject || "NA"}
         </p>
         <p>
           <b>Job Role:</b> {jobDetails?.job_role || "NA"}
@@ -76,7 +76,7 @@ const approve=async ()=>{
           <b>Job Type:</b> {jobDetails?.job_type || "NA"}
         </p>
         <p>
-          <b>Qualifications:</b> NA
+          <b>Qualifications:</b> {jobDetails?.min_qualify || "NA"}
         </p>
       </div>
       <div className="job-description">
