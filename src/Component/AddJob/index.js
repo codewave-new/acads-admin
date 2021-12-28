@@ -280,7 +280,7 @@ useEffect(async ()=>{
        {(props) => (
         
          <Form>
-            {JSON.stringify(props.errors,null,2)}
+           
              <div className="container" style={{"paddingBottom":"25px"}}>
                  <div className="row mt-4">
                     <div className="col-md-4"><Input name="job_title" label="Job title" type="text"/></div>
