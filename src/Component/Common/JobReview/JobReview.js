@@ -23,7 +23,7 @@ const withold=async ()=>{
   alert('job updated')
 }
 const approve=async ()=>{
- await updateJob({job_status:'Active',_id:jobId})
+ await updateJob({job_status:'Active',_id:jobId,status:"active"})
  await setUpJobDetails()
  alert('job updated')
 }
@@ -40,7 +40,7 @@ const approve=async ()=>{
         </p>
         <div>
           <button onClick={()=>withold()}>Withhold</button>
-          <button onClick={()=>approve()}>Approve</button>
+          <button onClick={()=>approve()} className={jobDetails.job_status === 'Active' || jobDetails.job_status === 'live'?'disabled':'not_disabled'} disabled={jobDetails.job_status === 'Active' || jobDetails.job_status === 'live'?true:false}>Approve</button>
         </div>
       </header>
       {/* <p>

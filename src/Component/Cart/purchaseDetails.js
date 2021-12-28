@@ -1,6 +1,6 @@
 import { InputNumber,Switch } from 'antd';
 import PaymentSummary from './paymentSummary';
-const PurchaseDetails=({gst,price,totalPrice,discountType,changeDiscountType,discount,discountedAmount,generateOrder})=>{
+const PurchaseDetails=({gst,price,totalPrice,discountType,changeDiscountType,discount,discountedAmount,generateOrder,offline})=>{
     
     return (
    
@@ -10,7 +10,7 @@ const PurchaseDetails=({gst,price,totalPrice,discountType,changeDiscountType,dis
         <label>Discount</label> <br />
         <InputNumber onChange={(value)=>discount(value)} />
         <span style={{"marginLeft":"6px"}}>%</span><Switch onChange={(checked)=>changeDiscountType(checked)} style={{"marginLeft":"6px"}}/><span style={{"marginLeft":"6px"}}>Fixed Price</span>
-        <PaymentSummary price={price} discountedAmount={discountedAmount} generateOrder={generateOrder} gst={gst} totalPrice={totalPrice}/>
+        <PaymentSummary price={price} discountedAmount={discountedAmount} generateOrder={generateOrder} offline={offline} gst={gst} totalPrice={totalPrice}/>
 
         </div>
         

@@ -23,6 +23,36 @@ export const createUser = (data) => {
   return axios(config);
 };
 
+export const transactions = (data) => {
+  let token = localStorage.getItem("token");
+  let config = {
+    method: "post",
+    url: `https://acadshr.herokuapp.com/Orders/transactions`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    data: {
+      ...data,
+    },
+  };
+  return axios(config);
+};
+
+export const createTransactions = (data) => {
+  let token = localStorage.getItem("token");
+  let config = {
+    method: "post",
+    url: `https://acadshr.herokuapp.com/Orders/admin/transaction`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    data: {
+      ...data,
+    },
+  };
+  return axios(config);
+};
+
 export const createJob = (data) => {
   let token = localStorage.getItem("token");
   let config = {

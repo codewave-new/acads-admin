@@ -68,7 +68,7 @@ export default function InstitutionList() {
           </thead>
           <tbody>
             {currentList
-              .slice((pageConfig.current - 1) * 10, pageConfig.current * 10)
+              
               .filter((x) => {
                 return (
                   x?.institution_name
@@ -78,18 +78,21 @@ export default function InstitutionList() {
                     ?.toLowerCase()
                     ?.startsWith(searchTerm.toLowerCase())
                 );
-              })
+              }).slice((pageConfig.current - 1) * 10, pageConfig.current * 10)
               .map((obj) => (
-                <tr>
-                  <td>{obj?.institution_id || "Id"}</td>
-                  <td>{obj?.institution_name || "NA"}</td>
-                  <td>{obj?.institution_primary_contact_no || "NA"}</td>
-                  <td>{obj?.institution_primary_email || "NA"}</td>
+                <tr >
+                  <td>{obj?.iSmartID || "Id"}</td>
+                  <td style={{"cursor":"pointer"}}  onClick={() =>
+                  history.push(`/dashboard/manageInstitutes/${obj._id}`)
+                }><a style={{"color":"#1783a8","fontSize":"15px","fontWeight":"500"}}>{obj?.institution_name || "NA"}</a></td>
+                  <td>{obj?.institutionContactDetails?.institution_primary_contact_no || "NA"}</td>
+                  <td>{obj?.institutionContactDetails?.institution_primary_email || "NA"}</td>
                   <td>
                     <button
                       onClick={() =>
                         history.push(`/dashboard/addjobs/${obj._id}/${obj.iSmartID}`)
                       }
+                      style={{"width":"100%"}}
                     >
                       Add Job
                     </button>
@@ -97,12 +100,21 @@ export default function InstitutionList() {
                   <td>
                     <button
                       onClick={() =>
+                        history.push(`/dashboard/manageTransaction/${obj._id}`)
+                      }
+                    >
+                     Transactions
+                    </button>
+                  </td>
+                  {/* <td>
+                    <button
+                      onClick={() =>
                         history.push(`/dashboard/manageInstitutes/${obj._id}`)
                       }
                     >
                       View
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
           </tbody>
@@ -126,10 +138,11 @@ export default function InstitutionList() {
 }
 
 const headers = [
-  { _id: nextId(), name: "ID" },
+  { _id: nextId(), name: "ISmart id" },
   { _id: nextId(), name: "Name" },
   { _id: nextId(), name: "Contact Number" },
   { _id: nextId(), name: "Email ID" },
+  { _id: nextId(), name: "" },
   { _id: nextId(), name: "" },
   { _id: nextId(), name: "" },
 ];

@@ -2,8 +2,9 @@ import { useEffect,useState } from "react"
 import Jobs from "./savedJobs"
 import PurchaseDetails from "./purchaseDetails"
 import PaymentSummary from './paymentSummary'
+import {Modal,Button,Input} from 'antd';
 import swal from 'sweetalert';
-import { JobList,updateJob,createOrder } from "../../Services/postAPI"
+import { JobList,updateJob,createOrder,createTransactions } from "../../Services/postAPI"
 
 const Cart=(props)=>{
 const [savedJobList,setsavedJobList]=useState([])
@@ -14,6 +15,10 @@ const [discountperc,setDiscount]=useState(0)
 const [discountType,setdiscountType]=useState("perc")
 const [discountedAmount,setdiscountedAmount]=useState(0)
 const [totalPrice,setTotalPrice]=useState(0)
+const [showModal,setShowModal]=useState(false)
+const [referenceNo,setReferenceNo]=useState('')
+const [orderId,setOrderId]=useState('')
+const [orderAmount,setOrderAmount]=useState('')
 const institute_id = props?.match?.params?.institute_id
 const overflowStyle={
     "height": "auto",
@@ -51,7 +56,7 @@ useEffect(()=>{
         getInstituteJobs(institute_id,'draft')
     }
     
-},[institute_id])
+},[institute_id,showModal])
 
 const saveLater=async (job)=>{
 const jobData={...job,job_status:'draft'}
@@ -89,7 +94,8 @@ const discount=(amount)=>{
     setDiscount(amount)
 }
 const generateOrder=async ()=>{
-  
+  if(savedJobList.length > 0)
+  {
     const data={
         jobs:savedJobList.map(saved=>({
             jobID: saved._id,
@@ -108,15 +114,85 @@ const generateOrder=async ()=>{
         "gstPercent":18,
         "gstAmount":gst
     }
-    console.log(data)
+   
     const res=await createOrder(data)
     console.log(res)
     if(res.data.status === 'success')
     {
         swal("Success",'Razor pay link has been sent successfully', "success");
     }
+  }
+  else
+  {
+    swal("Failure",'No jobs are added still', "error");
+  }
+  
     
    
+}
+const offline=async ()=>{
+    setShowModal(true)
+    
+   
+   
+}
+const handleOk=async ()=>{
+    if(savedJobList.length > 0)
+    {
+        const data={
+            jobs:savedJobList.map(saved=>({
+                jobID: saved._id,
+                "title": saved.job_title,
+                "class": saved.job_class,
+                "experience": saved.job_experience,
+                "salaryoffered":`${saved.job_salary_range.start } - ${saved.job_salary_range.end}`,
+                "curriculum": saved.job_curiculum
+            })),
+            instituteID:props.match.params.user_id,
+            "pricePerJob":3000,
+            "totalAmount": (parseInt(price)+parseInt(gst))-discountedAmount,
+            "discountpercent":discountperc,
+            "paymentType":"offline",
+            "paymentOption":"cheque",
+            "discountAmount":discountedAmount,
+            "gstPercent":18,
+            "gstAmount":gst
+            
+        }
+       
+        const res=await createOrder(data)
+       
+        if(res.data.status === 'success')
+        {
+            setOrderId(res.data.data.order._id)
+            setOrderAmount(res.data.data.order.totalAmount)
+            const data={
+                "orderID":res.data.data.order._id,
+                "paymentType":"offline",
+                "statusOfPayment":"full",
+                "paymentOption":"cheque",
+                "amountPaid":res.data.data.order.totalAmount,
+                "document":'',
+                "referenceNumber":referenceNo
+            }
+        const result = await createTransactions(data)
+        
+        swal("Success",'Transaction has been successful', "success");
+        setShowModal(false)
+        }
+        else
+        {
+            swal("Failure",'Some issue in creating order,retry again', "error");
+            setShowModal(false)
+        }
+       
+    }
+   
+ 
+   
+}
+const handleCancel=()=>{
+    setShowModal(false)
 }
 
 useEffect(()=>{
@@ -131,7 +207,10 @@ useEffect(()=>{
     setdiscountedAmount(discountperc)
     }
 },[discountperc,discountType,price])
-
+const getReference=(e)=>{
+  
+    setReferenceNo(e.target.value)
+}
 return (
 <div className="container">
     <div className="row">
@@ -142,7 +221,7 @@ return (
         <div style={overflowStyle}><Jobs  type="cart" jobs={savedJobList} deleteJob={deleteJob} callback={saveLater}/></div>
         </div>
 
-        <div className="mt-4 col-md-12"> <PurchaseDetails generateOrder={generateOrder} price={price} totalPrice={totalPrice} discountType={discountType} discount={discount} discountedAmount={discountedAmount} gst={gst} changeDiscountType={changeDiscountType}/> </div>
+        <div className="mt-4 col-md-12"> <PurchaseDetails generateOrder={generateOrder} offline={offline} price={price} totalPrice={totalPrice} discountType={discountType} discount={discount} discountedAmount={discountedAmount} gst={gst} changeDiscountType={changeDiscountType}/> </div>
 
         <div className="col-md-12">
         <h5> {draftJobList&&draftJobList.length} Drafted Jobs</h5>
@@ -158,7 +237,9 @@ return (
        
     </div>
     
-   
+   <Modal visible={showModal} title="Basic Modal" onOk={handleOk} onCancel={handleCancel}>
+   <Input placeholder="Enter refrence number" onChange={getReference} />
+   </Modal>
    
     </div>
 )

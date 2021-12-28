@@ -12,6 +12,11 @@
   &::-webkit-scrollbar-thumb {
     background-color: var(--gray-color);
   }
+  .disabled
+  {
+    background-color: #ccc !important;
+    border-color:#ccc !important;
+  }
   p,
   div {
     text-align: left;

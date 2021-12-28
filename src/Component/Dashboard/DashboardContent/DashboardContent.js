@@ -17,6 +17,7 @@ import Testimonial from "./Testimonial/Testimonial";
 import TestimonialList from "./TestimonialList/TestimonialList";
 import TextEditorWrapper from "./TextEditorWrapper/TextEditorWrapper";
 import Cart from "../../Cart";
+import ManageTransaction from "../../ManageTransaction"
 export default function DashboardContent() {
   return (
     <div className="dashboard-content-main">
@@ -44,6 +45,7 @@ export default function DashboardContent() {
         <Route path="/dashboard/managePlans" component={ManagePlans} />
         <Route path="/dashboard/approveJobs" component={ApprovalOfJobs} />
         <Route path="/dashboard/approveFields" component={ApprovalOfFields} />
+        <Route path="/dashboard/manageTransaction/:institute_id" component={ManageTransaction} />
         <Route
           path="/dashboard/manageInstitutes"
           component={ManageInstitute}

@@ -258,7 +258,7 @@ useEffect(async ()=>{
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, actions) => {
-          const jobData={...values,job_status:'live',status:'active',job_salary_range:{start:values.job_salary_range[0],end:values.job_salary_range[1]}}
+          const jobData={...values,job_status:'saved',job_salary_range:{start:values.job_salary_range[0],end:values.job_salary_range[1]}}
           try{
             const res=await createJob(jobData)
             if(res.data.statusCode === 200)

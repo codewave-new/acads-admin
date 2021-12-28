@@ -1,6 +1,6 @@
 
 
-const PaymentSummary=({price,gst,totalPrice,discountedAmount,generateOrder})=>{
+const PaymentSummary=({price,gst,totalPrice,discountedAmount,generateOrder,offline})=>{
    const summary_box={
     height: "75%",
     width: "64%",
@@ -22,7 +22,10 @@ const PaymentSummary=({price,gst,totalPrice,discountedAmount,generateOrder})=>{
           <hr />
           <b>GRAND TOTAL : {(parseInt(price)+parseInt(gst))-discountedAmount}</b>
       </div>
-      <div><button style={{"margin":"2px"}} onClick={generateOrder}  className="btn btn-primary">CHECKOUT</button></div>
+      <div>
+         <button style={{"margin":"2px"}} onClick={generateOrder}  className="btn btn-primary">CHECKOUT</button>
+         <button style={{"margin":"2px"}} onClick={offline}  className="btn btn-primary">OFFLINE</button>
+      </div>
     </div>
        </> 
    
