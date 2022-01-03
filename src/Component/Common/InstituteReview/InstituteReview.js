@@ -1,11 +1,19 @@
 import React from "react";
 import { useParams } from "react-router";
 import { getInstituteDetails } from "../../../Services/getAPI";
+import { Pagination } from "antd";
+import {JobList} from "../../../Services/postAPI"
 import "./institute-review.style.scss";
 import InstituteJobs from "./InstituteJobs/InstituteJobs";
 export default function InstituteReview() {
   const { instituteId } = useParams();
   const [instituteDetails, setInstituteDetails] = React.useState(null);
+  const [jobs,setJobs]=React.useState([]);
+  const [job_status,setJobStatus]=React.useState('under-review');
+  const [searchTerm,setSearchTerm]=React.useState('');
+  const [currentPage,setcurrentPage]=React.useState(0);
+  const [count,setCount]=React.useState();
+  const [loader,setLoader]=React.useState(false);
   const setUpInstituteDetails = async () => {
     try {
       let res = await getInstituteDetails(instituteId);
@@ -15,6 +23,42 @@ export default function InstituteReview() {
       }
     } catch (error) {}
   };
+
+  const jobsByinstitutionId=async()=>{
+    try {
+      setLoader(true)
+      let jobs=await JobList({institution_id:instituteDetails.userID,pageNo:currentPage,pageSize:10,job_status:job_status,search:searchTerm})
+       
+      if(jobs.data.statusCode === 200)
+      {
+        setJobs(jobs.data.data.jobData)
+        setCount(jobs.data.data.count)
+        setLoader(false)
+      }
+    } catch (error) {
+      setJobs([])
+      setLoader(false)
+    }
+  }
+
+  React.useEffect(()=>{
+    if(instituteDetails !== null)
+    {
+      jobsByinstitutionId()
+    }
+   
+  },[instituteDetails,currentPage,job_status,searchTerm])
+
+  const searchTitle=(e)=>{
+    setSearchTerm(e.target.value)
+  }
+  const pageChange=(page)=>{
+    setcurrentPage(page-1)
+  }
+  const jobStatus=(e)=>{
+    setJobStatus(e.target.value);
+  }
+
   React.useEffect(() => {
     setUpInstituteDetails();
   }, []);
@@ -105,6 +149,7 @@ export default function InstituteReview() {
             ></iframe>
         </div>
         <div className="input-wrapper">
+
           <p>About Institute</p>
           <textarea
             rows={3}
@@ -113,7 +158,15 @@ export default function InstituteReview() {
           ></textarea>
         </div>
       </div>
-    
+      {
+        loader && searchTerm === ''?<span>Loading .....</span>:
+        <>
+         <InstituteJobs instituteId={instituteId} jobList={jobs} page={currentPage} count={count}searchTerm={searchTerm} searchTitle={searchTitle} job_status={job_status} jobStatus={jobStatus}/>
+        <Pagination onChange={pageChange} total={10} defaultPageSize={10} current={currentPage+1} total={count}/>
+        </>
+       
+      }
+   
     </div>
   );
 }
