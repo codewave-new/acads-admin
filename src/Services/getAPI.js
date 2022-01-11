@@ -16,11 +16,13 @@ export const getJobByid=(id)=>{
   return axios(config);
 }
 
-export const getAllCandidates = () => {
+export const getAllCandidates = (search,pageNo,pageSize) => {
+
   let token = localStorage.getItem("token");
   let config = {
     method: "get",
-    url: "https://acadshr.herokuapp.com/ahr/candidate",
+    url: `https://acadshr.herokuapp.com/ahr/candidate`,
+    params:{search,pageNo,pageSize},
     headers: {
       authorization: `Bearer ${token}`,
     },

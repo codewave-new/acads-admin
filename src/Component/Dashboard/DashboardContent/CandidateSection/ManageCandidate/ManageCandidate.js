@@ -10,23 +10,23 @@ export default function ManageCandidate() {
   const { userType } = context;
   const history = useHistory();
   const [currentList, setCurrentList] = React.useState([]);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchTerm, setSearchTerm] = React.useState();
   const [loading, setLoading] = React.useState(false);
   const [pageConfig, setPageConfig] = React.useState({
-    current: 1,
+    current: 0,
     total: 0,
     itemsPerPage: 10,
   });
   const setUpCandidateList = async () => {
     try {
       setLoading(true);
-      let res = await getAllCandidates();
+      let res = await getAllCandidates(searchTerm,pageConfig.current,pageConfig.itemsPerPage);
       if (res.data.statusCode === 200) {
         setCurrentList(res.data.data);
         setPageConfig({
-          current: 1,
-          total: res?.data?.data?.length || 0,
-          itemsPerPage: 10,
+          ...pageConfig,
+         total: res?.data?.count
+         
         });
 
         setLoading(false);
@@ -37,9 +37,11 @@ export default function ManageCandidate() {
       setLoading(false);
     }
   };
+
   React.useEffect(() => {
     setUpCandidateList();
-  }, []);
+  }, [pageConfig.current]);
+
   return userType === "leader" ? (
     <div className="jobs-list-wrapper">
       <h1>No Access</h1>
@@ -68,17 +70,17 @@ export default function ManageCandidate() {
             </thead>
             <tbody>
               {currentList
-                .slice((pageConfig.current - 1) * 10, pageConfig.current * 10)
-                .filter((x) => {
-                  return (
-                    x?.candidate_full_name
-                      ?.toLowerCase()
-                      ?.startsWith(searchTerm.toLowerCase()) ||
-                    x?.candidate_email
-                      ?.toLowerCase()
-                      ?.startsWith(searchTerm.toLowerCase())
-                  );
-                })
+                // .slice((pageConfig.current - 1) * 10, pageConfig.current * 10)
+                // .filter((x) => {
+                //   return (
+                //     x?.candidate_full_name
+                //       ?.toLowerCase()
+                //       ?.startsWith(searchTerm.toLowerCase()) ||
+                //     x?.candidate_email
+                //       ?.toLowerCase()
+                //       ?.startsWith(searchTerm.toLowerCase())
+                //   );
+                // })
                 .map((obj) => (
                   <tr>
                     <td>{obj.candidate_id || "Id"}</td>
@@ -102,8 +104,8 @@ export default function ManageCandidate() {
         <Pagination
           total={pageConfig.total}
           itemsPerPage={pageConfig.itemsPerPage}
-          current={pageConfig.current}
-          onChange={(obj) => setPageConfig({ ...pageConfig, current: obj })}
+          current={pageConfig.current+1}
+          onChange={(obj) => setPageConfig({ ...pageConfig, current: obj-1 })}
           className="pagination-section"
           prevIcon={() => (
             <img src="https://img.icons8.com/ios/50/000000/less-than.png" />
