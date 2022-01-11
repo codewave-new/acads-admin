@@ -16,11 +16,17 @@ export default function ManageCandidate() {
     current: 0,
     total: 0,
     itemsPerPage: 10,
+    search:''
   });
+
+  const setSearch=()=>{
+    setPageConfig({...pageConfig,search:searchTerm})
+  }
+
   const setUpCandidateList = async () => {
     try {
       setLoading(true);
-      let res = await getAllCandidates(searchTerm,pageConfig.current,pageConfig.itemsPerPage);
+      let res = await getAllCandidates(pageConfig.search,pageConfig.current,pageConfig.itemsPerPage);
       if (res.data.statusCode === 200) {
         setCurrentList(res.data.data);
         setPageConfig({
@@ -40,7 +46,7 @@ export default function ManageCandidate() {
 
   React.useEffect(() => {
     setUpCandidateList();
-  }, [pageConfig.current]);
+  }, [pageConfig.current,pageConfig.search]);
 
   return userType === "leader" ? (
     <div className="jobs-list-wrapper">
@@ -55,6 +61,7 @@ export default function ManageCandidate() {
             <input
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onBlur={setSearch}
               placeholder="Search..."
             />
           </div>
