@@ -14,6 +14,9 @@ const Input=({label,type,...props})=>{
         "marginTop": "10px",
         "border": "none"
     }
+    const errorStyle={
+      "color":"red"
+    }
 
     return (
       <>
@@ -32,7 +35,7 @@ const Input=({label,type,...props})=>{
         {
           
         meta.touched && meta.error ? (
-          <div className="error">{meta.error}</div>
+          <div style={errorStyle}>{meta.error}</div>
         ) : null
         
         }

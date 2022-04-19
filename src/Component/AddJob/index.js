@@ -207,8 +207,7 @@ useEffect(async ()=>{
 },[])
   const validationSchema=Yup.object({
     job_title:Yup.string().required('This field is required'),
-    country:Yup.string().required('This field is required'),
-    target_hiring_date:Yup.date().required('This field is required'),
+   target_hiring_date:Yup.date().required('This field is required')
   })
 
   const selectJob=async (job_id)=>{
@@ -346,7 +345,6 @@ useEffect(async ()=>{
                      <ReactQuill
                    value={props.values.job_description}
                     onChange={(val) => props.setFieldValue('job_description',val)}
-                    modules={mod}
                     name="job_description"
                     modules={modules}
                     />
