@@ -174,8 +174,9 @@ const selectState=(setFieldValue,state)=>{
       }
    
   },[hasMore,jobs])
+  
 const getTemplate=(temp)=>{
- 
+ console.log(initialValues)
   setInitalValules({...initialValues,job_description:temp})
 }
 const getInstitute=async ()=>{
@@ -207,7 +208,8 @@ useEffect(async ()=>{
 },[])
   const validationSchema=Yup.object({
     job_title:Yup.string().required('This field is required'),
-   target_hiring_date:Yup.date().required('This field is required')
+   target_hiring_date:Yup.date().required('This field is required'),
+   job_vacancies:Yup.string().required('This field is required')
   })
 
   const selectJob=async (job_id)=>{
@@ -343,7 +345,7 @@ useEffect(async ()=>{
                     <div className="col-md-12">
                       
                      <ReactQuill
-                   value={props.values.job_description}
+                    value={props.values.job_description}
                     onChange={(val) => props.setFieldValue('job_description',val)}
                     name="job_description"
                     modules={modules}
@@ -408,7 +410,7 @@ useEffect(async ()=>{
          </Form>
        )}
          </Formik>
-         <Modal title="Basic Modal" visible={jobs} onOk={handleOk} onCancel={handleCancel}>
+         <Modal title="Choose Jobs" visible={jobs} onOk={handleOk} onCancel={handleCancel}>
             
                 <div className="container">
                 <div className="row">
