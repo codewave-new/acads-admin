@@ -217,6 +217,7 @@ export const createPlan = (data) => {
 };
 
 export const editPlan = (data, id) => {
+  console.log(data)
   let token = localStorage.getItem("token");
   let config = {
     method: "put",

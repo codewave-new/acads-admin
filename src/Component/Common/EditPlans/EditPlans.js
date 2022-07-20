@@ -17,7 +17,11 @@ export default function EditPlans({ data = {}, closeIt, updateList }) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      let res = await editPlan({ ...details,plan_discount_amount:parseInt(2542*details.no_of_job_post) - parseInt(details.plan_price_per_job_post*details.no_of_job_post),price:parseInt((details.plan_price_per_job_post*details.no_of_job_post)*(1+0.18)) }, details._id);
+      let plan_price_per_job_post=details.plan_price_per_job_post
+     
+      let discount_amount=plan_price_per_job_post*details.no_of_job_post*(details.plan_discount/100)
+    let price_after_discount=(parseInt((plan_price_per_job_post*details.no_of_job_post - discount_amount)*1.18))
+      let res = await editPlan({ ...details,plan_discount_amount:Math.round(discount_amount),price:price_after_discount }, details._id);
       if (res.data.data) {
         alert("Plan Edited Successfully");
         updateList();
