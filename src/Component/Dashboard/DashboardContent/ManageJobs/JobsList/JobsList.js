@@ -119,7 +119,7 @@ const onCityPlaceSelected=(val)=>{
              
               </select>
               </div>
-          <div style={{"width":"50%","float":"left"}}>
+          <div style={{"width":"20%","float":"left"}}>
             <input
               value={searchTerm}
               onChange={(e) => searchQuery(e)}
@@ -127,11 +127,11 @@ const onCityPlaceSelected=(val)=>{
               placeholder="Search title"
             /> 
             </div>
-            <div style={{"width":"50%","float":"left"}}>
+            <div style={{"width":"20%","float":"left", "paddingLeft":"1rem"}}>
             <input
               value={pageConfig.institution_id}
               onChange={(e) => searchQuery(e,"institution_id")}
-              placeholder="Search title"
+              placeholder="Search by Institue id"
             /> 
             </div>
           </div>
