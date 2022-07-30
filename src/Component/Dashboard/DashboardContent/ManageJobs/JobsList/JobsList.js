@@ -22,10 +22,16 @@ export default function JobsList() {
     pageNo: 0,
     pageSize: 10,
     job_status:'under-review',
-    search:''
+    search:'',
+    institution_id:''
   });
-const searchQuery = (e)=>{
-  setSearchTerm(e.target.value)
+const searchQuery = (e,key)=>{
+  if(key){
+    setPageConfig({...pageConfig,[key]:e.target.value})
+  }
+  else{
+    setSearchTerm(e.target.value)
+  }
 }
 const editCity=(obj)=>{
   setJob(obj)
@@ -102,9 +108,9 @@ const onCityPlaceSelected=(val)=>{
                <option value="payment-inprogress">Payment in Progress</option>
               <option value="Closed">Closed</option>
               <option value="On Hold">On Hold</option>
-              {/* <option value="Not Won">Not Won</option>
+              {/* <option value="Not Won">Not Won</option> */}
              
-              <option value="saved">Saved</option> */}
+              <option value="saved">Saved</option> 
               <option value="payment-failed">Payment Failed</option>
               <option value="under-review" selected>Under Review</option>
               <option value="approved">Approved</option>
@@ -118,6 +124,13 @@ const onCityPlaceSelected=(val)=>{
               value={searchTerm}
               onChange={(e) => searchQuery(e)}
               onBlur={setSearch}
+              placeholder="Search title"
+            /> 
+            </div>
+            <div style={{"width":"50%","float":"left"}}>
+            <input
+              value={pageConfig.institution_id}
+              onChange={(e) => searchQuery(e,"institution_id")}
               placeholder="Search title"
             /> 
             </div>
