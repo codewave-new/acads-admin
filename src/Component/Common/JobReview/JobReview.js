@@ -43,7 +43,7 @@ export default function JobReview() {
           Status: <span>{jobDetails.job_status}</span>
         </p>
         <div>
-          <button onClick={() => onDarft()}>Darft</button>
+          <button onClick={() => onDarft()}>Draft</button>
           <button onClick={() => withold()}>Withhold</button>
           <button
             onClick={() => approve()}
