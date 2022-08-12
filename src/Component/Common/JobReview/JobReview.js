@@ -7,26 +7,30 @@ import "./job-review.style.scss";
 export default function JobReview() {
   const { jobId } = useParams();
   const [jobDetails, setJobDetails] = React.useState(null);
-  
+
   const setUpJobDetails = async () => {
-  
     let res = await getJobDetails(jobId);
-    console.log(res)
+    console.log(res);
     if (res.data.data) {
       setJobDetails(res.data.data);
     } else {
     }
   };
-const withold=async ()=>{
-  await updateJob({job_status:'On Hold',_id:jobId})
-  await setUpJobDetails()
-  alert('job updated')
-}
-const approve=async ()=>{
- await updateJob({job_status:'Active',_id:jobId,status:"active"})
- await setUpJobDetails()
- alert('job updated')
-}
+  const withold = async () => {
+    await updateJob({ job_status: "On Hold", _id: jobId });
+    await setUpJobDetails();
+    alert("job updated");
+  };
+  const onDarft = async () => {
+    await updateJob({ job_status: "draft", _id: jobId });
+    await setUpJobDetails();
+    alert("job updated");
+  };
+  const approve = async () => {
+    await updateJob({ job_status: "Active", _id: jobId, status: "active" });
+    await setUpJobDetails();
+    alert("job updated");
+  };
   React.useEffect(() => {
     setUpJobDetails();
   }, []);
@@ -39,8 +43,25 @@ const approve=async ()=>{
           Status: <span>{jobDetails.job_status}</span>
         </p>
         <div>
-          <button onClick={()=>withold()}>Withhold</button>
-          <button onClick={()=>approve()} className={jobDetails.job_status === 'Active' || jobDetails.job_status === 'live'?'disabled':'not_disabled'} disabled={jobDetails.job_status === 'Active' || jobDetails.job_status === 'live'?true:false}>Approve</button>
+          <button onClick={() => onDarft()}>Darft</button>
+          <button onClick={() => withold()}>Withhold</button>
+          <button
+            onClick={() => approve()}
+            className={
+              jobDetails.job_status === "Active" ||
+              jobDetails.job_status === "live"
+                ? "disabled"
+                : "not_disabled"
+            }
+            disabled={
+              jobDetails.job_status === "Active" ||
+              jobDetails.job_status === "live"
+                ? true
+                : false
+            }
+          >
+            Approve
+          </button>
         </div>
       </header>
       {/* <p>
@@ -53,7 +74,8 @@ const approve=async ()=>{
             Institute Id: <span>{jobDetails?.instituteData?.iSmartID}</span>
           </h5>
           <h5>
-            Institute Name: <span>{jobDetails?.instituteData ?.institution_name || "NA"}</span>
+            Institute Name:{" "}
+            <span>{jobDetails?.instituteData?.institution_name || "NA"}</span>
           </h5>
         </div>
       </div>
@@ -69,8 +91,7 @@ const approve=async ()=>{
           <b>Job Role:</b> {jobDetails?.job_role || "NA"}
         </p>
         <p>
-          <b>Experience:</b> {jobDetails?.job_experience}{" "}
-          years
+          <b>Experience:</b> {jobDetails?.job_experience} years
         </p>
         <p>
           <b>Job Type:</b> {jobDetails?.job_type || "NA"}
@@ -88,8 +109,9 @@ const approve=async ()=>{
       <div className="institute-description">
         <p>Institute Description</p>
         <div>
-        <Interweave content={jobDetails?.instituteData?.institutionDetails?.about} />
-         
+          <Interweave
+            content={jobDetails?.instituteData?.institutionDetails?.about}
+          />
         </div>
       </div>
     </div>
