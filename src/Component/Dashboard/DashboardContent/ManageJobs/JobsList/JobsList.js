@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import nextId from "react-id-generator";
 import { useHistory } from "react-router";
-import { getAllJobs } from "../../../../../Services/getAPI";
+import { getAllJobs, getInstituteList } from "../../../../../Services/getAPI";
 import { updateJob } from "../../../../../Services/postAPI";
 import Pagination from "rc-pagination";
 import { Modal, Button } from "antd";
 import "./jobs-list.style.scss";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { MainContext } from "../../../../Context/MainContext";
+import ReactSelect from "react-select";
 export default function JobsList() {
   const history = useHistory();
   const context = React.useContext(MainContext);
@@ -24,6 +25,7 @@ export default function JobsList() {
     search: "",
     institution_id: "",
   });
+  const [options, setOptions] = useState([]);
   const searchQuery = (e, key) => {
     if (key) {
       setPageConfig({ ...pageConfig, [key]: e.target.value });
@@ -53,11 +55,17 @@ export default function JobsList() {
   const setSearch = () => {
     setPageConfig({ ...pageConfig, search: searchTerm });
   };
+  const setSearchForTitle = (e) => {
+    setPageConfig({ ...pageConfig, search: e.target.value });
+  };
   const changePage = (page) => {
     setPageConfig({ ...pageConfig, pageNo: page - 1 });
   };
   const jobStatus = (e) => {
     setPageConfig({ ...pageConfig, job_status: e.target.value });
+  };
+  const changeInstitute = (e) => {
+    setPageConfig({ ...pageConfig, institution_id: e.value });
   };
   const onCityPlaceSelected = (val) => {
     setCity(val);
@@ -77,9 +85,33 @@ export default function JobsList() {
       setCurrentList([]);
     }
   };
+
+  const setUpInstitute = async () => {
+    try {
+      let res = await getInstituteList();
+      if (res.data.statusCode === 200) {
+        let newRes = res.data.data.map((item) => {
+          item.value = item._id;
+          item.label = item.institution_name;
+          return item;
+        });
+        setOptions(newRes);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  React.useEffect(() => {
+    setUpInstitute();
+  }, []);
   React.useEffect(() => {
     setUpJobList();
-  }, [pageConfig.pageNo, pageConfig.job_status, pageConfig.search]);
+  }, [
+    pageConfig.pageNo,
+    pageConfig.job_status,
+    pageConfig.search,
+    pageConfig.institution_id,
+  ]);
   return userType === "leader" ? (
     <div className="jobs-list-wrapper">
       <h1>No Access</h1>
@@ -111,18 +143,23 @@ export default function JobsList() {
                 <option value="draft">Draft</option>
               </select>
             </div>
-            <div style={{ width: "20%", float: "left" }}>
+            <div>
               <input
                 value={searchTerm}
-                onChange={(e) => searchQuery(e)}
-                onBlur={setSearch}
+                onChange={(e) => {
+                  searchQuery(e);
+                  setSearchForTitle(e);
+                }}
                 placeholder="Search title"
               />
             </div>
-            <div style={{ width: "20%", float: "left", paddingLeft: "1rem" }}>
-              <input
-                value={pageConfig.institution_id}
-                onChange={(e) => searchQuery(e, "institution_id")}
+            <div style={{ width: "40%", marginLeft: "50%", height: "30px",marginTop:"10px" }}>
+              <ReactSelect
+                defaultValue={options[0]}
+                options={options}
+                onChange={(e) => {
+                  changeInstitute(e);
+                }}
                 placeholder="Search by Institue id"
               />
             </div>
