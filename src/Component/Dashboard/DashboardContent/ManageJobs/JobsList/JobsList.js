@@ -91,7 +91,7 @@ export default function JobsList() {
       let res = await getInstituteList();
       if (res.data.statusCode === 200) {
         let newRes = res.data.data.map((item) => {
-          item.value = item._id;
+          item.value = item.userID;
           item.label = item.institution_name;
           return item;
         });
