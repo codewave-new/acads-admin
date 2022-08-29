@@ -52,9 +52,6 @@ export default function JobsList() {
     setCityModal(false);
     setCity("");
   };
-  const setSearch = () => {
-    setPageConfig({ ...pageConfig, search: searchTerm });
-  };
   const setSearchForTitle = (e) => {
     setPageConfig({ ...pageConfig, search: e.target.value });
   };
@@ -73,7 +70,6 @@ export default function JobsList() {
   const setUpJobList = async () => {
     try {
       let res = await getAllJobs(pageConfig);
-      console.log(res);
       if (res.data.data.jobData) {
         setCurrentList(res.data.data.jobData);
         setPageConfig({
